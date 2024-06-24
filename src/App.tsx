@@ -1,35 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect } from 'react'
 import './App.css'
-
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+import {useReducer}from 'react'
+const initialState=0;
+const reducer =(state:number,action:string) =>{
+switch(action){
+    case 'increment':
+        return state+1;
+    case 'decrement':
+        return state-1;
+    case 'reset':
+        return initialState;
+    default:
+        return state;
 }
 
-export default App
+}
+const App=() => {
+  const [counter,dispatch]=  useReducer(reducer,initialState);
+  useEffect(() =>{
+    document.title=`current counter is:${counter}`;
+  })
+  return (
+    <div className='counter'>
+        <div>{counter}</div>
+      <button onClick={()=>dispatch('increment')}>+</button>
+      <button onClick={()=>dispatch('decrement')}>-</button>
+      <button onClick={()=>dispatch('reset')}>Reset</button>
+    </div>
+  )
+}
+export default App;
